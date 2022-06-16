@@ -48,11 +48,25 @@ function playRound(userChoice, computerChoice) {
     }
 }
 
+function check(userChoice) {
+    let ch = userChoice.toLowerCase();
+    console.log(ch)
+    if( ch === 'rock' || ch === 'paper' || ch === 'scissor') {
+        return false;
+    }
+
+    return true;
+}
+
 function game() {
     let userScore = 0;
     let computerScore = 0;
     for(let i = 0; i < 5; i++) {
         let userChoice = prompt('Choose your weapon: Rock Paper Scissor').toLowerCase();
+        while(check(userChoice))
+        {
+            userChoice = prompt('Please choose a correct weapon: Rock Paper Scissor');
+        }
         let computerChoice = computerPlay();
         let round = playRound(userChoice, computerChoice);
 
