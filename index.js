@@ -7,36 +7,43 @@ function computerPlay() {
 
 function playRound(userChoice, computerChoice) {
     if(userChoice === computerChoice) {
-        return 'It\'s a tie!';
+        console.log('It\'s a tie!');
+        return;
     }
     
     if(userChoice === 'paper') {
         if(computerChoice === 'rock') {
-            return 'You win! Paper beats Rock';
+            console.log('You win! Paper beats Rock');
+            return 1;
         }
 
         if(computerChoice === 'scissor') {
-            return 'You lose! Scissor beats Paper';
+            console.log('You lose! Scissor beats Paper');
+            return 0
         }
     }
     
     if(userChoice === 'rock') {
         if(computerChoice === 'scissor') {
-            return 'You win! Rock beats Scissor';
+            console.log('You win! Rock beats Scissor');
+            return 1
         }
 
         if(computerChoice === 'paper') {
-            return 'You lose! Paper beats Rock';
+            console.log('You lose! Paper beats Rock');
+            return 0;
         }
     }
     
     if(userChoice === 'scissor') {
         if(computerChoice === 'paper') {
-            return 'You win! Scissor beats Paper';
+            console.log('You win! Scissor beats Paper');
+            return 1;
         }
 
         if(computerChoice === 'rock') {
-            return 'You lose! Rock beats Scissor';
+            console.log('You lose! Rock beats Scissor');
+            return 0;
         }
     }
 }
@@ -50,17 +57,21 @@ function game() {
         let round = playRound(userChoice, computerChoice);
 
         if(round === 0) {
-            userScore += 1;
+            computerScore += 1;
         }
-        else {
-            userChoice += 1;
+        else if(round === 1){
+            userScore += 1;
         }
     }
 
     if(userScore > computerScore) {
-        console.log('You won!' + userScore + 'round out of 5')
+        console.log('You won! ' + userScore + ' round out of 5');
+    }
+    else if(userScore < computerScore) {
+        console.log('You lost! computer won ' + computerScore + ' round out of 5');
     }
     else {
-        console.log('You lost! computer won' + computerScore + 'round out of 5')
+        console.log('It\'s a tie! equal rounds');
     }
+    
 }
