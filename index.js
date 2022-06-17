@@ -1,91 +1,100 @@
 
 function computerPlay() {
-    let choice = ['rock', 'paper', 'scissor'];
+    let choice = ['rock', 'paper', 'scissors'];
     let random = Math.floor(Math.random() * 3 );
     return choice[random];
 }
 
 function playRound(userChoice, computerChoice) {
+    let annouceResult = document.querySelector('.round_result');
+
     if(userChoice === computerChoice) {
-        console.log('It\'s a tie!');
+        annouceResult.textContent = 'It\'s a tie!';
         return;
     }
     
     if(userChoice === 'paper') {
         if(computerChoice === 'rock') {
-            console.log('You win! Paper beats Rock');
+            annouceResult.textContent = 'You win! Paper beats Rock';
             return 1;
         }
 
-        if(computerChoice === 'scissor') {
-            console.log('You lose! Scissor beats Paper');
+        if(computerChoice === 'scissors') {
+            annouceResult.textContent = 'You lose! Scissors beats Paper';
             return 0
         }
     }
     
     if(userChoice === 'rock') {
-        if(computerChoice === 'scissor') {
-            console.log('You win! Rock beats Scissor');
+        if(computerChoice === 'scissors') {
+            annouceResult.textContent = 'You win! Rock beats Scissors';
             return 1
         }
 
         if(computerChoice === 'paper') {
-            console.log('You lose! Paper beats Rock');
+            annouceResult.textContent = 'You lose! Paper beats Rock';
             return 0;
         }
     }
     
-    if(userChoice === 'scissor') {
+    if(userChoice === 'scissors') {
         if(computerChoice === 'paper') {
-            console.log('You win! Scissor beats Paper');
+            annouceResult.textContent = 'You win! Scissors beats Paper';
             return 1;
         }
 
         if(computerChoice === 'rock') {
-            console.log('You lose! Rock beats Scissor');
+            annouceResult.textContent = 'You lose! Rock beats Scissors';
             return 0;
         }
     }
 }
 
-function check(userChoice) {
-    let ch = userChoice.toLowerCase();
-    console.log(ch)
-    if( ch === 'rock' || ch === 'paper' || ch === 'scissor') {
-        return false;
+let rounds = 0;
+let userScore = 0;
+let computerScore = 0;
+let tie = 0;
+
+function game(weapon) {
+    
+
+    let userChoice = weapon.id;
+    let computerChoice = computerPlay();
+    let round = playRound(userChoice, computerChoice);
+    let annouceResult = document.querySelector('.final_result');
+    console.log(computerChoice)
+
+    if(round === 0) {
+        computerScore += 1;
     }
-
-    return true;
-}
-
-function game() {
-    let userScore = 0;
-    let computerScore = 0;
-    for(let i = 0; i < 5; i++) {
-        let userChoice = prompt('Choose your weapon: Rock Paper Scissor').toLowerCase();
-        while(check(userChoice))
-        {
-            userChoice = prompt('Please choose a correct weapon: Rock Paper Scissor');
-        }
-        let computerChoice = computerPlay();
-        let round = playRound(userChoice, computerChoice);
-
-        if(round === 0) {
-            computerScore += 1;
-        }
-        else if(round === 1){
-            userScore += 1;
-        }
-    }
-
-    if(userScore > computerScore) {
-        console.log('You won! ' + userScore + ' round out of 5');
-    }
-    else if(userScore < computerScore) {
-        console.log('You lost! computer won ' + computerScore + ' round out of 5');
+    else if(round === 1){
+        userScore += 1;
     }
     else {
-        console.log('It\'s a tie! equal rounds');
+        tie += 1;
     }
     
+    if(rounds === 4) {
+        if(userScore > computerScore) {
+            annouceResult.textContent = 'You won! ' + userScore + ' rounds out of ' + (5 - tie);
+        }
+        else if(userScore < computerScore) {
+            annouceResult.textContent = 'You lost! computer won ' + computerScore + ' rounds out of ' + (5 - tie);
+        }
+        else {
+            annouceResult.textContent = 'It\'s a tie! equal rounds';
+        } 
+    }
+    rounds += 1;
 }
+
+const weapons = document.querySelectorAll('.weapon')
+weapons.forEach(weapon => {
+    weapon.addEventListener('click', event => {
+        if(rounds < 5) {
+        game(weapon);
+        } else {
+            document.querySelector('.round_result').textContent = 'Refresh to play again';
+        }
+    })
+})
